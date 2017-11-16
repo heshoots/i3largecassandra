@@ -126,7 +126,7 @@ spec:
         - name: media
           mountPath: "/media/host"
         command: ["bash", "-c",
-        "mkdir /media/host/home/cassandra; nsenter --mount=/media/host/proc/1/ns/mnt -- mkfs -t ext3 /dev/nvme0n1; nsenter --mount=/media/host/proc/1/ns/mnt -- mount /dev/nvme0n1 /home/cassandra;"]
+        "if df | grep /dev/nvme0n1; then echo \"mounted\" \n else \n  mkdir /media/host/home/cassandra; nsenter --mount=/media/host/proc/1/ns/mnt -- mkfs -t ext3 /dev/nvme0n1; nsenter --mount=/media/host/proc/1/ns/mnt -- mount /dev/nvme0n1 /home/cassandra fi\n"]
         securityContext:
           privileged: true
       volumes:
